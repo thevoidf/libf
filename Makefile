@@ -5,24 +5,26 @@ SRC = $(shell find src -name '*.c')
 SRC += $(shell find deps -name '*.c')
 
 OBJ = ${SRC:.c=.o}
-# OBJ = $(patsubst src/%.c, src/%.o, $(SRC))
-# OBJ = $(patsubst deps/%.c, deps/%.o, $(SRC))
 
 CFLAGS = -Wall
 CFLAGS += -Ideps
-CFLAGS += -Ldeps
-CFLAGS += `pkg-config --static --libs glfw3`
+
+LDFLAGS += -Ldeps
+LDFLAGS += -Ldeps/glfw
+LDFLAGS += -ldl
+LDFLAGS += -lX11
+LDFLAGS += -lpthread
+LDFLAGS += -lm
+LDFLAGS += -lglfw3
 
 all: $(OUT)
 
 $(OUT): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) $^ $(LDFLAGS) -o $@
 
-# $(OBJ): src/%.o: src/%.c
-# 	$(CC) $< -c -o $@ $(CFLAGS)
-
-# OBJS = $(OBJ)
-# OBJS += $(OBJC)
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
 	-find . -type f -name '*.o' -delete
+	-rm $(OUT)
