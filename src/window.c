@@ -45,7 +45,6 @@ void lowg_window_clear(float r, float g, float b)
 
 void lowg_window_update(lowg_window_t* w)
 {
-  glClear(GL_COLOR_BUFFER_BIT);
   glfwSwapBuffers(w->window);
   glfwPollEvents();
 }
