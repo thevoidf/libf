@@ -88,3 +88,8 @@ unsigned int lowg_create_program(unsigned int vertex_shader, unsigned int fragme
 
   return program;
 }
+
+void lowg_bind_program(unsigned int program)
+{
+  glUseProgram(program);
+}

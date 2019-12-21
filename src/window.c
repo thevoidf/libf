@@ -40,11 +40,17 @@ int lowg_window_should_close(lowg_window_t* w)
 
 void lowg_window_clear(float r, float g, float b)
 {
+
+  glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   glClearColor(r, g, b, 1.0f);
 }
 
 void lowg_window_update(lowg_window_t* w)
 {
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR)
+    printf("OpenGL Error: %d\n", error);
+
   glfwSwapBuffers(w->window);
   glfwPollEvents();
 }
