@@ -25,10 +25,10 @@ lowg_sprite_t* lowg_sprite_new(float x, float y, float w, float h, vec3_t color)
   );
 
   float vertices[] = {
-    h, w, 0.0f,
-    h, -w, 0.0f,
-    -h, -w, 0.0f,
-    -h, w, 0.0f
+    0.5f, 0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+    -0.5f, 0.5f, 0.0f
   };
   float colors[] = {
     color.x, color.y, color.z,
