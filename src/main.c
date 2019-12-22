@@ -10,8 +10,8 @@ int main()
 {
   lowg_window_t* w = lowg_window_new("lowg", WIDTH, HEIGHT);
 
-  lowg_sprite_t* sprite = lowg_sprite_new(0.0f, 0.0f, 0.4f, 0.4f, (vec3_t) { 1.0f, 0.0f, 0.0f });
-  lowg_sprite_t* sprite2 = lowg_sprite_new(-0.5f, 0.0f, 0.2f, 0.2f, (vec3_t) { 1.0f, 1.0f, 1.0f });
+  lowg_sprite_t* sprite = lowg_sprite_new_image(0.0f, 0.0f, 1.0f, 1.0f, "/home/void/my_photo-3.jpg");
+  lowg_sprite_t* sprite2 = lowg_sprite_new_color(-0.5f, 0.0f, 0.2f, 0.2f, (vec3_t) { 1.0f, 0.0f, 1.0f });
 
   lowg_renderer2d_init(program);
   lowg_renderer2d_add(sprite);

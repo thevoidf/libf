@@ -10,7 +10,9 @@ typedef struct lowg_sprite_t {
   vec3_t* position;
 } lowg_sprite_t;
 
-lowg_sprite_t* lowg_sprite_new(float x, float y, float w, float h, vec3_t color);
+lowg_sprite_t* lowg_sprite_new(float x, float y, float w, float h, vec3_t color, char* tex_path);
+lowg_sprite_t* lowg_sprite_new_color(float x, float y, float w, float h, vec3_t color);
+lowg_sprite_t* lowg_sprite_new_image(float x, float y, float w, float h, char* tex_path);
 void lowg_sprite_print(lowg_sprite_t* sprite);
 
 #endif

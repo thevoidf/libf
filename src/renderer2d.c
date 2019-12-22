@@ -37,6 +37,7 @@ void lowg_render2d()
     lowg_sprite_t* sp = sprites.a[i];
 
     glBindVertexArray(i + 1);
+    glBindTexture(GL_TEXTURE_2D, i + 1);
 
     lowg_mat4_translate(model,
       sp->position->x,
