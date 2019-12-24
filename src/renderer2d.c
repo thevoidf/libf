@@ -6,9 +6,12 @@
 
 #include <glad/glad.h>
 
-void lowg_renderer2d_init()
+void lowg_renderer2d_init(unsigned int w, unsigned h)
 {
-  kv_init(sprites);
+  dim_w = w;
+  dim_h = h;
+
+  sprites = g_ptr_array_new();
 
   model = lowg_mat4_identity();
   view = lowg_mat4_identity();
@@ -19,22 +22,32 @@ void lowg_renderer2d_init()
   model_uniform = glGetUniformLocation(program, "model");
   view_uniform = glGetUniformLocation(program, "view");
   proj_uniform = glGetUniformLocation(program, "proj");
+
   lowg_bind_program(program);
 }
 
 void lowg_renderer2d_add(lowg_sprite_t* sprite)
 {
-  kv_push(lowg_sprite_t*, sprites, sprite);
+  g_ptr_array_add(sprites, sprite);
+}
+
+void lowg_render2d_remove(unsigned int idx)
+{
+  lowg_sprite_t* sprite = g_ptr_array_index(sprites, idx);
+  g_ptr_array_remove_index(sprites, idx);
+  free(sprite->color);
+  free(sprite->position);
+  free(sprite);
 }
 
 void lowg_render2d()
 {
   float* model = lowg_mat4_identity();
   float* view = lowg_mat4_identity();
-  float* proj = lowg_mat4_orthographic(-2.0f, 2.0f, -2.0f, 2.0f, -1.0f, 1.0f);
+  float* proj = lowg_mat4_orthographic(0.0f, dim_w, dim_h, 0.0f, -1.0f, 1.0f);
 
-  for (int i = 0; i < kv_size(sprites); i++) {
-    lowg_sprite_t* sp = sprites.a[i];
+  for (int i = 0; i < sprites->len; i++) {
+    lowg_sprite_t* sp = g_ptr_array_index(sprites, i);
 
     glBindVertexArray(i + 1);
     glBindTexture(GL_TEXTURE_2D, i + 1);

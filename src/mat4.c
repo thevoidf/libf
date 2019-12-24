@@ -41,9 +41,9 @@ float* lowg_mat4_orthographic(float left, float right, float bottom, float top, 
   mat[0 + 0 * 4] = 2.0f / (right - left);
   mat[1 + 1 * 4] = 2.0f / (top - bottom);
   mat[2 + 2 * 4] = 2.0f / (near - far);
-  mat[3 + 0 * 4] = (left + right) / (left - right);
-  mat[3 + 1 * 4] = (bottom + top) / (bottom - top);
-  mat[3 + 2 * 4] = (far + near) / (far - near);
+  mat[0 + 3 * 4] = (left + right) / (left - right);
+  mat[1 + 3 * 4] = (bottom + top) / (bottom - top);
+  mat[2 + 3 * 4] = (far + near) / (far - near);
 
   return mat;
 }
