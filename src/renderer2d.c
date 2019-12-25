@@ -15,7 +15,7 @@ void lowg_renderer2d_init(unsigned int w, unsigned h)
 
   model = lowg_mat4_identity();
   view = lowg_mat4_identity();
-  proj = lowg_mat4_identity();
+  proj = lowg_mat4_orthographic(0.0f, dim_w, dim_h, 0.0f, -1.0f, 1.0f);
 
   program = lowg_create_shader_program("assets/shader.vert", "assets/shader.frag");
 
@@ -42,10 +42,6 @@ void lowg_render2d_remove(unsigned int idx)
 
 void lowg_render2d()
 {
-  float* model = lowg_mat4_identity();
-  float* view = lowg_mat4_identity();
-  float* proj = lowg_mat4_orthographic(0.0f, dim_w, dim_h, 0.0f, -1.0f, 1.0f);
-
   for (int i = 0; i < sprites->len; i++) {
     lowg_sprite_t* sp = g_ptr_array_index(sprites, i);
 
