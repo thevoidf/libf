@@ -14,5 +14,6 @@ void lowg_array_add(lowg_array_t* array, void* value);
 void lowg_array_remove(lowg_array_t *array, unsigned int idx);
 unsigned int lowg_array_size(lowg_array_t *array);
 void* lowg_array_get(lowg_array_t *array, unsigned int idx);
+void lowg_array_free(lowg_array_t* array);
 
 #endif

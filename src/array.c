@@ -55,3 +55,9 @@ void* lowg_array_get(lowg_array_t *array, unsigned int idx)
   }
   return array->array[idx];
 }
+
+void lowg_array_free(lowg_array_t* array)
+{
+  free(array->array);
+  free(array);
+}

@@ -106,6 +106,8 @@ int main()
 
     lowg_window_update(w);
   }
+
+  lowg_array_free(sprites);
 #endif
   return 0;
 }
