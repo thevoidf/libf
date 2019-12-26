@@ -3,6 +3,7 @@
 #include "vec3.h"
 #include "mat4.h"
 #include "sprite.h"
+#include "array.h"
 
 #include <glad/glad.h>
 
@@ -11,7 +12,7 @@ void lowg_renderer2d_init(unsigned int w, unsigned h)
   dim_w = w;
   dim_h = h;
 
-  sprites = g_ptr_array_new();
+  sprites = lowg_array_new();
 
   model = lowg_mat4_identity();
   view = lowg_mat4_identity();
@@ -28,13 +29,13 @@ void lowg_renderer2d_init(unsigned int w, unsigned h)
 
 void lowg_renderer2d_add(lowg_sprite_t* sprite)
 {
-  g_ptr_array_add(sprites, sprite);
+  lowg_array_add(sprites, sprite);
 }
 
 void lowg_render2d_remove(unsigned int idx)
 {
-  lowg_sprite_t* sprite = g_ptr_array_index(sprites, idx);
-  g_ptr_array_remove_index(sprites, idx);
+  lowg_sprite_t* sprite = sprites->array[idx];
+  lowg_array_remove(sprites, idx);
   free(sprite->color);
   free(sprite->position);
   free(sprite);
@@ -42,8 +43,9 @@ void lowg_render2d_remove(unsigned int idx)
 
 void lowg_render2d()
 {
-  for (int i = 0; i < sprites->len; i++) {
-    lowg_sprite_t* sp = g_ptr_array_index(sprites, i);
+  unsigned int size = lowg_array_size(sprites);
+  for (int i = 0; i < size; i++) {
+    lowg_sprite_t* sp = lowg_array_get(sprites, i);
 
     glBindVertexArray(i + 1);
     glBindTexture(GL_TEXTURE_2D, i + 1);
