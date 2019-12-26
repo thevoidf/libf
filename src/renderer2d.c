@@ -36,9 +36,7 @@ void lowg_render2d_remove(unsigned int idx)
 {
   lowg_sprite_t* sprite = sprites->array[idx];
   lowg_array_remove(sprites, idx);
-  free(sprite->color);
-  free(sprite->position);
-  free(sprite);
+  lowg_sprite_free(sprite);
 }
 
 void lowg_render2d()
