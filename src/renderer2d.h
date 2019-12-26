@@ -1,14 +1,16 @@
 #ifndef LOWG_RENDERER2D_H
 #define LOWG_RENDERER2D_H
 
+#include "mat4.h"
+
 typedef struct lowg_sprite_t lowg_sprite_t;
 typedef struct lowg_array_t lowg_array_t;
 
 unsigned int dim_w;
 unsigned int dim_h;
-float* model;
-float* view;
-float* proj;
+float model[MAT_SIZE];
+float view[MAT_SIZE];
+float proj[MAT_SIZE];
 int model_uniform;
 int view_uniform;
 int proj_uniform;

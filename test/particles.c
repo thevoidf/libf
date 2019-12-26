@@ -98,7 +98,7 @@ int main()
       flake->dx = dx;
       flake->dy = dy;
       flake->rotate.z = 1.0f;
-      flake->angle += 1.0f;
+      /* flake->angle += 1.0f; */
 
       for (int i = 0; i < lowg_array_size(sprites); i++) {
         lowg_sprite_t* flake = lowg_array_get(sprites, i);

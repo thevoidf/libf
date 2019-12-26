@@ -14,9 +14,10 @@ void lowg_renderer2d_init(unsigned int w, unsigned h)
 
   sprites = lowg_array_new();
 
-  model = lowg_mat4_identity();
-  view = lowg_mat4_identity();
-  proj = lowg_mat4_orthographic(0.0f, dim_w, dim_h, 0.0f, -1.0f, 1.0f);
+  lowg_mat4_identity(model);
+  lowg_mat4_identity(view);
+  lowg_mat4_identity(proj);
+  lowg_mat4_orthographic(proj, 0.0f, dim_w, dim_h, 0.0f, -1.0f, 1.0f);
 
   program = lowg_create_shader_program("assets/shader.vert", "assets/shader.frag");
 
@@ -48,27 +49,37 @@ void lowg_render2d()
     glBindVertexArray(i + 1);
     glBindTexture(GL_TEXTURE_2D, i + 1);
 
-    float* scale = lowg_mat4_scale(sp->w, sp->h, 0);
-    float* trans = lowg_mat4_translate(
+    float scale[16];
+    float trans[16];
+    float neg[16];
+    float rotate[16];
+
+    lowg_mat4_identity(scale);
+    lowg_mat4_identity(trans);
+    lowg_mat4_identity(neg);
+    lowg_mat4_identity(rotate);
+
+    lowg_mat4_scale(scale, sp->w, sp->h, 0);
+    lowg_mat4_translate(trans,
         sp->position.x,
         sp->position.y,
         sp->position.z);
-    float* neg = lowg_mat4_translate(
+    lowg_mat4_translate(neg,
         -sp->position.x,
         -sp->position.y,
         -sp->position.z);
-    float* rotate = lowg_mat4_rotate(
+    lowg_mat4_rotate(rotate,
         sp->rotate.x,
         sp->rotate.y,
         sp->rotate.z,
         sp->angle);
 
-    model = lowg_mat4_identity();
-    model = lowg_mat4_multiply(model, scale);
-    model = lowg_mat4_multiply(model, trans);
-    model = lowg_mat4_multiply(model, neg);
-    model = lowg_mat4_multiply(model, rotate);
-    model = lowg_mat4_multiply(model, trans);
+    lowg_mat4_identity(model);
+    lowg_mat4_multiply(model, scale);
+    lowg_mat4_multiply(model, trans);
+    lowg_mat4_multiply(model, neg);
+    lowg_mat4_multiply(model, rotate);
+    lowg_mat4_multiply(model, trans);
 
     glUniformMatrix4fv(proj_uniform, 1, GL_FALSE, proj);
     glUniformMatrix4fv(view_uniform, 1, GL_FALSE, view);
