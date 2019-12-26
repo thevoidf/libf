@@ -15,20 +15,14 @@ lowg_sprite_t* lowg_sprite_new(float x, float y, float w, float h, vec3_t color,
     &(lowg_sprite_t const) { .w = w, .h = h },
     sizeof(lowg_sprite_t)
   );
-  sprite->position = memcpy(
-    malloc(sizeof(vec3_t)),
-    &(vec3_t const) { .x = x, .y = y },
-    sizeof(vec3_t)
-  );
-  sprite->color = memcpy(
-    malloc(sizeof(vec3_t)),
-    &color,
-    sizeof(vec3_t)
-  );
+  sprite->position = (vec3_t) { .x = x, .y = y };
+  sprite->rotate = (vec3_t) { 0.0f, 0.0f, 0.0f };
+  sprite->angle = 0.0f;
+  sprite->color = color;
 
   // hack
-  sprite->position->x += w / 2.0f;
-  sprite->position->y += h / 2.0f;
+  sprite->position.x += w / 2.0f;
+  sprite->position.y += h / 2.0f;
 
   float vertices[] = {
     0.5f, 0.5f, 0.0f,
@@ -120,8 +114,8 @@ void lowg_sprite_print(lowg_sprite_t* sprite)
 {
   printf(
     "{ x: %.1f, y: %.1f, w: %.1f, h: %.1f }\n",
-    sprite->position->x,
-    sprite->position->y,
+    sprite->position.x,
+    sprite->position.y,
     sprite->w,
     sprite->h
   );
@@ -135,7 +129,5 @@ void lowg_sprite_free(lowg_sprite_t* sprite)
   glDeleteBuffers(1, &sprite->vbt);
   glDeleteBuffers(1, &sprite->ibo);
   glDeleteTextures(1, &sprite->texture);
-  free(sprite->color);
-  free(sprite->position);
   free(sprite);
 }

@@ -48,11 +48,27 @@ void lowg_render2d()
     glBindVertexArray(i + 1);
     glBindTexture(GL_TEXTURE_2D, i + 1);
 
-    lowg_mat4_translate(model,
-      sp->position->x,
-      sp->position->y,
-      sp->position->z);
-    lowg_mat4_scale(model, sp->w, sp->h, 0);
+    float* scale = lowg_mat4_scale(sp->w, sp->h, 0);
+    float* trans = lowg_mat4_translate(
+        sp->position.x,
+        sp->position.y,
+        sp->position.z);
+    float* neg = lowg_mat4_translate(
+        -sp->position.x,
+        -sp->position.y,
+        -sp->position.z);
+    float* rotate = lowg_mat4_rotate(
+        sp->rotate.x,
+        sp->rotate.y,
+        sp->rotate.z,
+        sp->angle);
+
+    model = lowg_mat4_identity();
+    model = lowg_mat4_multiply(model, scale);
+    model = lowg_mat4_multiply(model, trans);
+    model = lowg_mat4_multiply(model, neg);
+    model = lowg_mat4_multiply(model, rotate);
+    model = lowg_mat4_multiply(model, trans);
 
     glUniformMatrix4fv(proj_uniform, 1, GL_FALSE, proj);
     glUniformMatrix4fv(view_uniform, 1, GL_FALSE, view);

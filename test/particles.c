@@ -2,8 +2,9 @@
 #include "sprite.h"
 #include "renderer2d.h"
 #include "vec3.h"
+#include "mat4.h"
 #include "array.h"
-#include "glfw/glfw3.h"
+#include <glfw/glfw3.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,21 +18,26 @@
 int main()
 {
 #if TEST == 1
+  /* float *m = lowg_mat4_identity(); */
+  /* m = lowg_mat4_multiply(m, lowg_mat4_scale(20.0f, 10.0f, 0)); */
+  /* m = lowg_mat4_multiply(m, lowg_mat4_translate( */
+  /*       2.0f, */
+  /*       1.0f, */
+  /*       0.0f)); */
+
+  /* for (int i = 0; i < 4*4; i++) { */
+  /*   printf("%1.f ", m[i]); */
+  /* } */
+
+  /* return 0; */
+
   lowg_window_t* w = lowg_window_new("lowg", WIDTH, HEIGHT);
 
-  lowg_sprite_t* sp = lowg_sprite_new_color(1.0f, 0.0f, 10.0f, 10.0f, (vec3_t) { 1.0f, 1.0f, 1.0f });
-  lowg_sprite_t* sp2 = lowg_sprite_new_color(20.0f, 20.0f, 10.0f, 10.0f, (vec3_t) { 1.0f, 1.0f, 1.0f });
-  lowg_array_t* array = lowg_array_new();
-  lowg_array_add(array, sp);
-  lowg_array_add(array, sp2);
+  lowg_sprite_t* sp = lowg_sprite_new_color(200.0f, 200.0f, 200.0f, 200.0f, (vec3_t) { 1.0f, 1.0f, 1.0f });
+  sp->rotate.z = 1.0f;
 
   lowg_renderer2d_init(WIDTH, HEIGHT);
-
-  for (int i = 0; i < array->size; i++) {
-    lowg_sprite_t* sp = array->array[i];
-    lowg_sprite_print(sp);
-    lowg_renderer2d_add(sp);
-  }
+  lowg_renderer2d_add(sp);
 
   double prev = glfwGetTime();
   double FPS = 1.0 / 60;
@@ -45,8 +51,7 @@ int main()
     count += delta;
 
     while (count >= FPS) {
-      /* sp->position->x += 1.0f; */
-      /* sp->position->y += 1.0f; */
+      sp->angle += 0.01f;
       count -= FPS;
     }
 
@@ -73,7 +78,10 @@ int main()
     prev = now;
     count += delta;
 
+    float angle = 0.0f;
     while (count >= FPS) {
+      angle += 1.0f;
+
       max = 0.2f, min = -0.2f;
       dx = (float) (rand() / (float) RAND_MAX) * (max - min) + min;
       max = 2.0f, min = 0.5f;
@@ -83,18 +91,24 @@ int main()
       xx = (float) (rand() % WIDTH);
 
       /* lowg_sprite_t* flake = lowg_sprite_new_image(xx, 0.0f, 20.0f, 20.0f, "/home/void/Downloads/file.png"); */
-      lowg_sprite_t* flake = lowg_sprite_new_color(xx, 0.0f, 10.0f, 10.0f, (vec3_t) { 1.0f, 1.0f, 1.0f });
+      lowg_sprite_t* flake = lowg_sprite_new_color(xx, 0.0f, 20.0f, 20.0f, (vec3_t) { 1.0f, 1.0f, 1.0f });
+      flake->rotate.z = 1.0f;
       lowg_renderer2d_add(flake);
 
       flake->dx = dx;
       flake->dy = dy;
+      flake->rotate.z = 1.0f;
+      flake->angle += 1.0f;
 
       for (int i = 0; i < lowg_array_size(sprites); i++) {
         lowg_sprite_t* flake = lowg_array_get(sprites, i);
-        flake->position->x += flake->dx;
-        flake->position->y += flake->dy;
+        flake->position.x += flake->dx;
+        flake->position.y += flake->dy;
+        flake->position.y += flake->dy;
 
-        if (flake->position->y > HEIGHT) {
+        flake->angle += 0.1f;
+
+        if (flake->position.y > HEIGHT) {
           lowg_render2d_remove(i);
         }
       }

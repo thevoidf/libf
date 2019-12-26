@@ -1,21 +1,23 @@
 #ifndef LOWG_SPRITE_H
 #define LOWG_SPRITE_H
 
-typedef struct vec3_t vec3_t;
+#include "vec3.h"
 
 typedef struct lowg_sprite_t {
   float w;
   float h;
   float dx;
   float dy;
+  float angle;
   unsigned int vao;
   unsigned int vbo;
   unsigned int vbc;
   unsigned int vbt;
   unsigned int ibo;
   unsigned int texture;
-  vec3_t* color;
-  vec3_t* position;
+  vec3_t color;
+  vec3_t position;
+  vec3_t rotate;
 } lowg_sprite_t;
 
 
