@@ -25,6 +25,8 @@ int main()
 
     cursor->position.x = mousex;
     cursor->position.y = mousey;
+    cursor->rotate.z = 1.0f;
+    cursor->angle += 0.01f;
 
     if (lowg_window_is_key_pressed(GLFW_KEY_A))
       sprite->position.x -= 1.0f;
