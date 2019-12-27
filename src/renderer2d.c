@@ -47,7 +47,7 @@ void lowg_render2d()
     lowg_sprite_t* sp = lowg_array_get(sprites, i);
 
     glBindVertexArray(i + 1);
-    glBindTexture(GL_TEXTURE_2D, i + 1);
+    glBindTexture(GL_TEXTURE_2D, sp->texture);
 
     float scale[16];
     float trans[16];

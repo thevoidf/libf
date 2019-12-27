@@ -76,13 +76,13 @@ lowg_sprite_t* lowg_sprite_new(float x, float y, float w, float h, vec3_t color,
     int img_w, img_h, img_channels;
     unsigned char* data;
 
-    /* stbi_set_flip_vertically_on_load(1); */
     if (tex_path)
       data = stbi_load(tex_path, &img_w, &img_h, &img_channels, 0);
     if (!data)
-      printf("Failed to load image\n");
+      fprintf(stderr, "Failed to load image\n");
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_w, img_h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    int channels = img_channels == 3 ? GL_RGB : GL_RGBA;
+    glTexImage2D(GL_TEXTURE_2D, 0, channels, img_w, img_h, 0, channels, GL_UNSIGNED_BYTE, data);
 
     if (tex_path)
       stbi_image_free(data);
