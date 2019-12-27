@@ -26,11 +26,13 @@ BIN_TEST = ${SRC_TEST:.c=}
 CFLAGS += -Isrc
 LDFLAGS += -L.
 LDFLAGS += -llowg
+LDFLAGS += -Ldeps/glfw
+LDFLAGS += -lglfw3
 
 test: $(BIN_TEST)
 
-$(BIN_TEST): $(SRC_TEST)
-	$(CC) $< $(CFLAGS) $(LDFLAGS) -o $@
+test/%: test/%.c
+	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 lib:
 	@echo "making lib"
