@@ -4,16 +4,25 @@ SRC = $(shell find src -name '*.c')
 SRC += $(shell find deps -name '*.c')
 OBJ = ${SRC:.c=.o}
 
+OS=$(shell uname -s)
+
 CFLAGS = -Wall
 CFLAGS += -Ideps
 
 LDFLAGS = -Ldeps
-LDFLAGS += -Ldeps/glfw
-LDFLAGS += -ldl
+
+ifeq ($(OS),Linux)
 LDFLAGS += -lX11
-LDFLAGS += -lpthread
-LDFLAGS += -lm
+LDFLAGS += -Ldeps/glfw/linux
+endif
+ifeq ($(OS),Darwin)
+LDFLAGS += -framework CoreVideo -framework OpenGL -framework IOKit -framework Cocoa -framework Carbon
+LDFLAGS += -Ldeps/glfw/mac
+endif
 LDFLAGS += -lglfw3
+LDFLAGS += -lpthread
+LDFLAGS += -ldl
+LDFLAGS += -lm
 
 all: $(OBJ)
 

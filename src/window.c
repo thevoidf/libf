@@ -3,7 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <glad/glad.h>
-#include <glfw/glfw3.h>
+
+#ifdef __APPLE__
+#include <glfw/mac/glfw3.h>
+#elif __linux__
+#include <glfw/linux/glfw3.h>
+#endif
 
 lowg_window_t* lowg_window_new(char* title, int width, int height)
 {
@@ -24,6 +29,9 @@ lowg_window_t* lowg_window_new(char* title, int width, int height)
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+#ifdef __APPLE__
+  glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   lowg_window_t* w = malloc(sizeof(lowg_window_t));

@@ -3,7 +3,11 @@
 #include "sprite.h"
 
 #include <stdio.h>
-#include <glfw/glfw3.h>
+#ifdef __APPLE__
+#include <glfw/mac/glfw3.h>
+#elif __linux__
+#include <glfw/linux/glfw3.h>
+#endif
 
 #define WIDTH 640 * 2
 #define HEIGHT 420 * 2

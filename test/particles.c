@@ -4,7 +4,11 @@
 #include "vec3.h"
 #include "mat4.h"
 #include "array.h"
-#include <glfw/glfw3.h>
+#ifdef __APPLE__
+#include <glfw/mac/glfw3.h>
+#elif __linux__
+#include <glfw/linux/glfw3.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
